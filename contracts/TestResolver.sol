@@ -12,7 +12,7 @@ contract TestResolver is Resolver {
 
     mapping (bytes32 => address) addresses;
 
-    constructor() public {
+    constructor() {
     }
 
     function supportsInterface(bytes4 interfaceID) public pure override returns (bool) {

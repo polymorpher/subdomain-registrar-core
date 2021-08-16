@@ -51,7 +51,7 @@ contract SubdomainRegistrar is AbstractSubdomainRegistrar {
 
     event TransferAddressSet(bytes32 indexed label, address addr);
 
-    constructor(ENS ens) AbstractSubdomainRegistrar(ens) public { }
+    constructor(ENS ens) AbstractSubdomainRegistrar(ens) { }
 
     /**
      * @dev owner returns the address of the account that controls a domain.
