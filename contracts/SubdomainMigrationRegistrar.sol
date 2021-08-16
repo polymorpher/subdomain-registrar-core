@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: BSD-2-Clause
 pragma solidity >=0.5.0;
 
 import "@ensdomains/ens/contracts/HashRegistrar.sol";
