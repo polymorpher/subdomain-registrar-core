@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BSD-2-Clause
 pragma solidity >=0.8.4;
 
-abstract contract RegistrarInterface {
+interface IRegistrar {
     event OwnerChanged(bytes32 indexed label, address indexed oldOwner, address indexed newOwner);
     event DomainConfigured(bytes32 indexed label);
     event DomainUnlisted(bytes32 indexed label);

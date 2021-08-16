@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BSD-2-Clause
 pragma solidity >=0.8.4;
 
-interface ReverseRegistrarInterface {
+interface IReverseRegistrar {
     function claim(address owner) external returns (bytes32);
 
     function node(address addr) external returns (bytes32);
