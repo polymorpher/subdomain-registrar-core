@@ -1,4 +1,4 @@
-pragma solidity ^0.5.0;
+pragma solidity >=0.5.0;
 
 contract RegistrarInterface {
     event OwnerChanged(bytes32 indexed label, address indexed oldOwner, address indexed newOwner);

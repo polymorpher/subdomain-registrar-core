@@ -1,4 +1,4 @@
-pragma solidity ^0.5.0;
+pragma solidity >=0.5.0;
 
 // Required so that tests can find it
 import "@ensdomains/ens/contracts/ENSRegistryWithFallback.sol";

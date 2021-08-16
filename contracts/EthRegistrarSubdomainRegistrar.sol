@@ -1,4 +1,4 @@
-pragma solidity ^0.5.0;
+pragma solidity >=0.5.0;
 
 import "@ensdomains/ethregistrar/contracts/BaseRegistrar.sol";
 import "./AbstractSubdomainRegistrar.sol";
