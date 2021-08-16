@@ -1,4 +1,3 @@
-require('babel-register');
 
 module.exports = {
 /*  networks: {
