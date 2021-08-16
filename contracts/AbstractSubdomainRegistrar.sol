@@ -3,9 +3,9 @@ pragma solidity >=0.8.4;
 
 import "@ensdomains/ens-contracts/contracts/registry/ENS.sol";
 import "./Resolver.sol";
-import "./RegistrarInterface.sol";
+import "./interfaces/IRegistrar.sol";
 
-abstract contract AbstractSubdomainRegistrar is RegistrarInterface {
+abstract contract AbstractSubdomainRegistrar is IRegistrar {
 
     // namehash('eth')
     bytes32 constant public TLD_NODE = 0x93cdeb708b7545dc668eb9280176169d1c33cfd8ed6f04690a0bcc88a93fc4ae;

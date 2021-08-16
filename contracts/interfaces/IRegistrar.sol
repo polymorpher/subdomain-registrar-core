@@ -9,9 +9,11 @@ interface IRegistrar {
     event RentPaid(bytes32 indexed label, string subdomain, uint amount, uint expirationDate);
 
     // InterfaceID of these four methods is 0xc1b15f5a
-    function query(bytes32 label, string calldata subdomain) external virtual view returns (string memory domain, uint signupFee, uint rent, uint referralFeePPM);
-    function register(bytes32 label, string calldata subdomain, address owner, address payable referrer, address resolver) external virtual payable;
+    function query(bytes32 label, string calldata subdomain) external view returns (string memory domain, uint signupFee, uint rent, uint referralFeePPM);
 
-    function rentDue(bytes32 label, string calldata subdomain) external virtual view returns (uint timestamp);
-    function payRent(bytes32 label, string calldata subdomain) external virtual payable;
+    function register(bytes32 label, string calldata subdomain, address owner, address payable referrer, address resolver) external payable;
+
+    function rentDue(bytes32 label, string calldata subdomain) external view returns (uint timestamp);
+
+    function payRent(bytes32 label, string calldata subdomain) external payable;
 }
