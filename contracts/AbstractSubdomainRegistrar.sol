@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: BSD-2-Clause
-pragma solidity >=0.5.0;
+pragma solidity >=0.8.4;
 
-import "@ensdomains/ens/contracts/ENS.sol";
+import "@ensdomains/ens-contracts/contracts/registry/ENS.sol";
 import "./Resolver.sol";
 import "./RegistrarInterface.sol";
 
-contract AbstractSubdomainRegistrar is RegistrarInterface {
+abstract contract AbstractSubdomainRegistrar is RegistrarInterface {
 
     // namehash('eth')
     bytes32 constant public TLD_NODE = 0x93cdeb708b7545dc668eb9280176169d1c33cfd8ed6f04690a0bcc88a93fc4ae;
@@ -35,7 +35,7 @@ contract AbstractSubdomainRegistrar is RegistrarInterface {
 
     event DomainTransferred(bytes32 indexed label, string name);
 
-    constructor(ENS _ens) public {
+    constructor(ENS _ens) {
         ens = _ens;
         registrar = ens.owner(TLD_NODE);
         registrarOwner = msg.sender;
@@ -63,7 +63,7 @@ contract AbstractSubdomainRegistrar is RegistrarInterface {
         );
     }
 
-    function rentDue(bytes32 label, string calldata subdomain) external view returns (uint timestamp) {
+    function rentDue(bytes32 label, string calldata subdomain) external override virtual view returns (uint timestamp) {
         return 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF;
     }
 
@@ -85,7 +85,7 @@ contract AbstractSubdomainRegistrar is RegistrarInterface {
      * @param referralFeePPM The referral fee to offer, in parts per million
      */
     function configureDomain(string memory name, uint price, uint referralFeePPM) public {
-        configureDomainFor(name, price, referralFeePPM, msg.sender, address(0x0));
+        configureDomainFor(name, price, referralFeePPM, payable(msg.sender), address(0x0));
     }
 
     /**
@@ -118,8 +118,8 @@ contract AbstractSubdomainRegistrar is RegistrarInterface {
      * @return rent The rent to retain a subdomain, in wei per second.
      * @return referralFeePPM The referral fee for the dapp, in ppm.
      */
-    function query(bytes32 label, string calldata subdomain) external view returns (string memory domain, uint price, uint rent, uint referralFeePPM);
+    function query(bytes32 label, string calldata subdomain) external view virtual override returns (string memory domain, uint price, uint rent, uint referralFeePPM);
 
-    function owner(bytes32 label) public view returns (address);
-    function configureDomainFor(string memory name, uint price, uint referralFeePPM, address payable _owner, address _transfer) public;
+    function owner(bytes32 label) public view virtual returns (address);
+    function configureDomainFor(string memory name, uint price, uint referralFeePPM, address payable _owner, address _transfer) public virtual;
 }

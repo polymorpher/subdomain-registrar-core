@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BSD-2-Clause
-pragma solidity >=0.5.0;
+pragma solidity >=0.8.4;
 
-import "@ensdomains/ethregistrar/contracts/BaseRegistrar.sol";
+import "@ensdomains/ens-contracts/contracts/ethregistrar/BaseRegistrar.sol";
 import "./EthRegistrarSubdomainRegistrar.sol";
 
 /**

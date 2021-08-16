@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BSD-2-Clause
-pragma solidity >=0.5.0;
+pragma solidity >=0.8.4;
 
-import "@ensdomains/ethregistrar/contracts/BaseRegistrar.sol";
+import "@ensdomains/ens-contracts/contracts/ethregistrar/BaseRegistrar.sol";
 import "./AbstractSubdomainRegistrar.sol";
 
 /**
@@ -53,7 +53,7 @@ contract EthRegistrarSubdomainRegistrar is AbstractSubdomainRegistrar {
      * @param label The label hash of the deed to check.
      * @return The address owning the deed.
      */
-    function owner(bytes32 label) public view returns (address) {
+    function owner(bytes32 label) public view override returns (address) {
         if (domains[label].owner != address(0x0)) {
             return domains[label].owner;
         }
@@ -83,7 +83,7 @@ contract EthRegistrarSubdomainRegistrar is AbstractSubdomainRegistrar {
      *        when the permanent registrar is replaced. Can only be set to a non-zero
      *        value once.
      */
-    function configureDomainFor(string memory name, uint price, uint referralFeePPM, address payable _owner, address _transfer) public owner_only(keccak256(bytes(name))) {
+    function configureDomainFor(string memory name, uint price, uint referralFeePPM, address payable _owner, address _transfer) public override owner_only(keccak256(bytes(name))) {
         bytes32 label = keccak256(bytes(name));
         Domain storage domain = domains[label];
 
@@ -132,7 +132,7 @@ contract EthRegistrarSubdomainRegistrar is AbstractSubdomainRegistrar {
      * @return rent The rent to retain a subdomain, in wei per second.
      * @return referralFeePPM The referral fee for the dapp, in ppm.
      */
-    function query(bytes32 label, string calldata subdomain) external view returns (string memory domain, uint price, uint rent, uint referralFeePPM) {
+    function query(bytes32 label, string calldata subdomain) external override view returns (string memory domain, uint price, uint rent, uint referralFeePPM) {
         bytes32 node = keccak256(abi.encodePacked(TLD_NODE, label));
         bytes32 subnode = keccak256(abi.encodePacked(node, keccak256(bytes(subdomain))));
 
@@ -151,7 +151,7 @@ contract EthRegistrarSubdomainRegistrar is AbstractSubdomainRegistrar {
      * @param _subdomainOwner The account that should own the newly configured subdomain.
      * @param referrer The address of the account to receive the referral fee.
      */
-    function register(bytes32 label, string calldata subdomain, address _subdomainOwner, address payable referrer, address resolver) external not_stopped payable {
+    function register(bytes32 label, string calldata subdomain, address _subdomainOwner, address payable referrer, address resolver) external override not_stopped payable {
         address subdomainOwner = _subdomainOwner;
         bytes32 domainNode = keccak256(abi.encodePacked(TLD_NODE, label));
         bytes32 subdomainLabel = keccak256(bytes(subdomain));
@@ -169,7 +169,7 @@ contract EthRegistrarSubdomainRegistrar is AbstractSubdomainRegistrar {
 
         // Send any extra back
         if (msg.value > domain.price) {
-            msg.sender.transfer(msg.value - domain.price);
+            payable(msg.sender).transfer(msg.value - domain.price);
         }
 
         // Send any referral fee
@@ -194,7 +194,7 @@ contract EthRegistrarSubdomainRegistrar is AbstractSubdomainRegistrar {
         emit NewRegistration(label, subdomain, subdomainOwner, referrer, domain.price);
     }
 
-    function rentDue(bytes32 label, string calldata subdomain) external view returns (uint timestamp) {
+    function rentDue(bytes32 label, string calldata subdomain) external override view returns (uint timestamp) {
         return 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF;
     }
 
@@ -224,7 +224,7 @@ contract EthRegistrarSubdomainRegistrar is AbstractSubdomainRegistrar {
         emit DomainTransferred(label, name);
     }
 
-    function payRent(bytes32 label, string calldata subdomain) external payable {
+    function payRent(bytes32 label, string calldata subdomain) external override payable {
         revert();
     }
 }
