@@ -135,7 +135,7 @@ abstract contract AbstractSubdomainRegistrar is IRegistrar {
     }
 
     /// Harmony specific: https://github.com/harmony-one/subdomain-registrar/blob/one-names-v4/contracts/EthRegistrarSubdomainRegistrar.sol#L59
-    function rentPrice(string memory name, uint duration) override virtual external view {
-
+    function rentPrice(string memory name, uint duration) override virtual external view returns (uint256) {
+        return 0;
     }
 }

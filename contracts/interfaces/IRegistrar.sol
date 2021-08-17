@@ -26,5 +26,5 @@ interface IRegistrar {
     function register(bytes32 label, string calldata subdomain, address _subdomainOwner, uint duration, string calldata url, address resolver) external payable;
 
     /// Harmony specific: https://github.com/harmony-one/subdomain-registrar/blob/one-names-v4/contracts/EthRegistrarSubdomainRegistrar.sol#L59
-    function rentPrice(string memory name, uint duration)external view;
+    function rentPrice(string memory name, uint duration) external view returns (uint256);
 }
