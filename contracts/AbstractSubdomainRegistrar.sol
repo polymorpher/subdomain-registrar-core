@@ -58,8 +58,8 @@ abstract contract AbstractSubdomainRegistrar is IRegistrar {
 
     function supportsInterface(bytes4 interfaceID) public pure returns (bool) {
         return (
-            (interfaceID == 0x01ffc9a7) // supportsInterface(bytes4)
-            || (interfaceID == 0xc1b15f5a) // RegistrarInterface
+        (interfaceID == 0x01ffc9a7) // supportsInterface(bytes4)
+        || (interfaceID == 0xc1b15f5a) // RegistrarInterface
         );
     }
 
@@ -121,5 +121,16 @@ abstract contract AbstractSubdomainRegistrar is IRegistrar {
     function query(bytes32 label, string calldata subdomain) external view virtual override returns (string memory domain, uint price, uint rent, uint referralFeePPM);
 
     function owner(bytes32 label) public view virtual returns (address);
-    function configureDomainFor(string memory name, uint price, uint referralFeePPM, address payable _owner, address _transfer) public virtual;
+
+    function configureDomainFor(string memory name, uint price, uint referralFeePPM, address payable _owner, address _transfer) override public virtual;
+
+    /// Harmony specific implementation: https://github.com/harmony-one/subdomain-registrar/blob/one-names-v4/contracts/EthRegistrarSubdomainRegistrar.sol#L139
+    function configureDomainFor(string memory name, uint price, address payable referralAddress, address payable _owner, address _transfer) override virtual external {
+
+    }
+
+    /// Harmony specific implementation: https://github.com/harmony-one/subdomain-registrar/blob/one-names-v4/contracts/EthRegistrarSubdomainRegistrar.sol#L229
+    function register(bytes32 label, string calldata subdomain, address _subdomainOwner, uint duration, string calldata url, address resolver) override virtual  external payable {
+
+    }
 }

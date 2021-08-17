@@ -16,4 +16,13 @@ interface IRegistrar {
     function rentDue(bytes32 label, string calldata subdomain) external view returns (uint timestamp);
 
     function payRent(bytes32 label, string calldata subdomain) external payable;
+
+    function configureDomainFor(string memory name, uint price, uint referralFeePPM, address payable _owner, address _transfer) external;
+
+    /// Harmony specific implementation: https://github.com/harmony-one/subdomain-registrar/blob/one-names-v4/contracts/EthRegistrarSubdomainRegistrar.sol#L139
+    function configureDomainFor(string memory name, uint price, address payable referralAddress, address payable _owner, address _transfer) external;
+
+    /// Harmony specific implementation: https://github.com/harmony-one/subdomain-registrar/blob/one-names-v4/contracts/EthRegistrarSubdomainRegistrar.sol#L229
+    function register(bytes32 label, string calldata subdomain, address _subdomainOwner, uint duration, string calldata url, address resolver) external payable;
+
 }
