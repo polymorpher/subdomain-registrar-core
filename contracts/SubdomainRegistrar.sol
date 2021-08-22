@@ -81,7 +81,7 @@ contract SubdomainRegistrar is AbstractSubdomainRegistrar {
      * @param name The name to transfer.
      * @param newOwner The address of the new owner.
      */
-    function transfer(string memory name, address payable newOwner) public owner_only(keccak256(bytes(name))) {
+    function transfer(string memory name, address payable newOwner) override public owner_only(keccak256(bytes(name))) {
         bytes32 label = keccak256(bytes(name));
         emit OwnerChanged(label, domains[label].owner, newOwner);
         domains[label].owner = newOwner;

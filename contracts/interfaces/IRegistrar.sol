@@ -27,4 +27,9 @@ interface IRegistrar {
 
     /// Harmony specific: https://github.com/harmony-one/subdomain-registrar/blob/one-names-v4/contracts/EthRegistrarSubdomainRegistrar.sol#L59
     function rentPrice(string memory name, uint duration) external view returns (uint256);
+
+    function transfer(string memory name, address payable newOwner) external;
+
+    /// Harmony specific: https://github.com/harmony-one/subdomain-registrar/blob/one-names-v4/contracts/EthRegistrarSubdomainRegistrar.sol#L64
+    function renew(bytes32 label, string calldata subdomain, uint duration) external payable;
 }
