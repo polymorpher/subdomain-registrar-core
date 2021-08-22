@@ -1,6 +1,6 @@
 {
   "name": "@ensdomains/subdomain-registrar-core",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "requires": true,
   "license": "BSD-2-Clause",
   "repository": {
