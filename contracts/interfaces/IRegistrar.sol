@@ -32,4 +32,6 @@ interface IRegistrar {
 
     /// Harmony specific: https://github.com/harmony-one/subdomain-registrar/blob/one-names-v4/contracts/EthRegistrarSubdomainRegistrar.sol#L64
     function renew(bytes32 label, string calldata subdomain, uint duration) external payable;
+
+    function ens() external view returns(address);
 }
