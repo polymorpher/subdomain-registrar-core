@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BSD-2-Clause
 pragma solidity >=0.8.4;
 
-import "@ensdomains/ens-contracts/contracts/registry/ENS.sol";
+import "./interfaces/ENS.sol";
 import "./Resolver.sol";
 
 /**

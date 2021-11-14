@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BSD-2-Clause
 pragma solidity >=0.8.4;
 
-import "@ensdomains/ens-contracts/contracts/registry/ENS.sol";
+import "./interfaces/ENS.sol";
 import "./Resolver.sol";
 import "./interfaces/IRegistrar.sol";
 
@@ -16,7 +16,11 @@ abstract contract AbstractSubdomainRegistrar is IRegistrar {
 
     address public registrar;
 
-    ENS public ens;
+    ENS ens_;
+
+    function ens() override external view returns (address){
+        return address(ens_);
+    }
 
     modifier owner_only(bytes32 label) {
         require(owner(label) == msg.sender);
@@ -36,24 +40,24 @@ abstract contract AbstractSubdomainRegistrar is IRegistrar {
     event DomainTransferred(bytes32 indexed label, string name);
 
     constructor(ENS _ens) {
-        ens = _ens;
-        registrar = ens.owner(TLD_NODE);
+        ens_ = _ens;
+        registrar = ens_.owner(TLD_NODE);
         registrarOwner = msg.sender;
     }
 
     function doRegistration(bytes32 node, bytes32 label, address subdomainOwner, Resolver resolver) internal {
         // Get the subdomain so we can configure it
-        ens.setSubnodeOwner(node, label, address(this));
+        ens_.setSubnodeOwner(node, label, address(this));
 
         bytes32 subnode = keccak256(abi.encodePacked(node, label));
         // Set the subdomain's resolver
-        ens.setResolver(subnode, address(resolver));
+        ens_.setResolver(subnode, address(resolver));
 
         // Set the address record on the resolver
         resolver.setAddr(subnode, subdomainOwner);
 
         // Pass ownership of the new subdomain to the registrant
-        ens.setOwner(subnode, subdomainOwner);
+        ens_.setOwner(subnode, subdomainOwner);
     }
 
     function supportsInterface(bytes4 interfaceID) public pure returns (bool) {
@@ -75,7 +79,7 @@ abstract contract AbstractSubdomainRegistrar is IRegistrar {
     function setResolver(string memory name, address resolver) public owner_only(keccak256(bytes(name))) {
         bytes32 label = keccak256(bytes(name));
         bytes32 node = keccak256(abi.encodePacked(TLD_NODE, label));
-        ens.setResolver(node, resolver);
+        ens_.setResolver(node, resolver);
     }
 
     /**

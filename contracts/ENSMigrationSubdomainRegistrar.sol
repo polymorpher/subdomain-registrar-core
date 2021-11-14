@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BSD-2-Clause
 pragma solidity >=0.8.4;
 
-import "@ensdomains/ens-contracts/contracts/ethregistrar/BaseRegistrar.sol";
+import "./BaseRegistrar.sol";
 import "./EthRegistrarSubdomainRegistrar.sol";
 
 /**
@@ -33,19 +33,19 @@ import "./EthRegistrarSubdomainRegistrar.sol";
  */
 contract ENSMigrationSubdomainRegistrar is EthRegistrarSubdomainRegistrar {
 
-    constructor(ENS ens) EthRegistrarSubdomainRegistrar(ens) public { }
+    constructor(ENS ens) EthRegistrarSubdomainRegistrar(ens_) public { }
 
     function migrateSubdomain(bytes32 node, bytes32 label) external {
         bytes32 subnode = keccak256(abi.encodePacked(node, label));
-        address previous = ens.owner(subnode);
+        address previous = ens_.owner(subnode);
 
         // only allow a contract to run their own migration
         require(!isContract(previous) || msg.sender == previous);
 
-        ens.setSubnodeRecord(node, label, previous, ens.resolver(subnode), ens.ttl(subnode));
+        ens_.setSubnodeRecord(node, label, previous, ens_.resolver(subnode), ens_.ttl(subnode));
     }
 
-    function isContract(address addr) private returns (bool) {
+    function isContract(address addr) view private returns (bool) {
         uint size;
         assembly { size := extcodesize(addr) }
         return size > 0;

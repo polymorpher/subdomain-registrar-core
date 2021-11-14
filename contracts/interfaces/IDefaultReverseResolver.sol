@@ -1,4 +1,4 @@
-import "@ensdomains/ens-contracts/contracts/registry/ENS.sol";
+import "./ENS.sol";
 
 interface IDefaultReverseResolver {
     function name(bytes32) external view returns (string memory);

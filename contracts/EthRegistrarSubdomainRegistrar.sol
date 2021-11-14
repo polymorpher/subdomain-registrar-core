@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BSD-2-Clause
 pragma solidity >=0.8.4;
 
-import "@ensdomains/ens-contracts/contracts/ethregistrar/BaseRegistrar.sol";
+import "./BaseRegistrar.sol";
 import "./AbstractSubdomainRegistrar.sol";
 
 /**
@@ -42,7 +42,7 @@ contract EthRegistrarSubdomainRegistrar is AbstractSubdomainRegistrar {
 
     mapping (bytes32 => Domain) domains;
 
-    constructor(ENS ens) AbstractSubdomainRegistrar(ens) public { }
+    constructor(ENS ens) AbstractSubdomainRegistrar(ens_) public { }
 
     /**
      * @dev owner returns the address of the account that controls a domain.
@@ -136,7 +136,7 @@ contract EthRegistrarSubdomainRegistrar is AbstractSubdomainRegistrar {
         bytes32 node = keccak256(abi.encodePacked(TLD_NODE, label));
         bytes32 subnode = keccak256(abi.encodePacked(node, keccak256(bytes(subdomain))));
 
-        if (ens.owner(subnode) != address(0x0)) {
+        if (ens_.owner(subnode) != address(0x0)) {
             return ('', 0, 0, 0);
         }
 
@@ -157,7 +157,7 @@ contract EthRegistrarSubdomainRegistrar is AbstractSubdomainRegistrar {
         bytes32 subdomainLabel = keccak256(bytes(subdomain));
 
         // Subdomain must not be registered already.
-        require(ens.owner(keccak256(abi.encodePacked(domainNode, subdomainLabel))) == address(0));
+        require(ens_.owner(keccak256(abi.encodePacked(domainNode, subdomainLabel))) == address(0));
 
         Domain storage domain = domains[label];
 
@@ -194,7 +194,7 @@ contract EthRegistrarSubdomainRegistrar is AbstractSubdomainRegistrar {
         emit NewRegistration(label, subdomain, subdomainOwner, referrer, domain.price);
     }
 
-    function rentDue(bytes32 label, string calldata subdomain) external override view returns (uint timestamp) {
+    function rentDue(bytes32 /*label*/, string calldata /*subdomain*/) external override pure returns (uint timestamp) {
         return 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF;
     }
 
@@ -224,7 +224,7 @@ contract EthRegistrarSubdomainRegistrar is AbstractSubdomainRegistrar {
         emit DomainTransferred(label, name);
     }
 
-    function payRent(bytes32 label, string calldata subdomain) external override payable {
+    function payRent(bytes32 /*label*/, string calldata /*subdomain*/) external override payable {
         revert();
     }
 }

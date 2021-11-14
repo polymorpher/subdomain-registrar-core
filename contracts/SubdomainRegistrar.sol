@@ -43,7 +43,7 @@ contract SubdomainRegistrar is AbstractSubdomainRegistrar {
     }
 
     modifier new_registrar() {
-        require(ens.owner(TLD_NODE) != address(registrar));
+        require(ens_.owner(TLD_NODE) != address(registrar));
         _;
     }
 
@@ -51,7 +51,7 @@ contract SubdomainRegistrar is AbstractSubdomainRegistrar {
 
     event TransferAddressSet(bytes32 indexed label, address addr);
 
-    constructor(ENS ens) AbstractSubdomainRegistrar(ens) { }
+    constructor(ENS ens) AbstractSubdomainRegistrar(ens_) { }
 
     /**
      * @dev owner returns the address of the account that controls a domain.
@@ -168,7 +168,7 @@ contract SubdomainRegistrar is AbstractSubdomainRegistrar {
         bytes32 node = keccak256(abi.encodePacked(TLD_NODE, label));
         bytes32 subnode = keccak256(abi.encodePacked(node, keccak256(bytes(subdomain))));
 
-        if (ens.owner(subnode) != address(0x0)) {
+        if (ens_.owner(subnode) != address(0x0)) {
             return ('', 0, 0, 0);
         }
 
@@ -189,7 +189,7 @@ contract SubdomainRegistrar is AbstractSubdomainRegistrar {
         bytes32 subdomainLabel = keccak256(bytes(subdomain));
 
         // Subdomain must not be registered already.
-        require(ens.owner(keccak256(abi.encodePacked(domainNode, subdomainLabel))) == address(0));
+        require(ens_.owner(keccak256(abi.encodePacked(domainNode, subdomainLabel))) == address(0));
 
         Domain storage domain = domains[label];
 
@@ -268,7 +268,7 @@ contract SubdomainRegistrar is AbstractSubdomainRegistrar {
         emit DomainTransferred(label, name);
     }
 
-    function payRent(bytes32 label, string calldata subdomain) external override payable {
+    function payRent(bytes32 /*label*/, string calldata /*subdomain*/) external override payable {
         revert();
     }
 

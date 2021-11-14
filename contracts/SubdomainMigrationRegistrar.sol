@@ -2,7 +2,7 @@
 pragma solidity >=0.8.4;
 
 //import "@ensdomains/ens/contracts/HashRegistrar.sol";
-import "@ensdomains/ens-contracts/contracts/ethregistrar/BaseRegistrar.sol";
+import "./BaseRegistrar.sol";
 
 /// temporarily disabled due to unavailability of HashRegistrar in newer versions of ens-contract
 contract SubdomainMigrationRegistrar {
