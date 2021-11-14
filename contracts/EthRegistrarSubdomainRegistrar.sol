@@ -42,7 +42,7 @@ contract EthRegistrarSubdomainRegistrar is AbstractSubdomainRegistrar {
 
     mapping (bytes32 => Domain) domains;
 
-    constructor(ENS ens) AbstractSubdomainRegistrar(ens_) public { }
+    constructor(ENS ens) AbstractSubdomainRegistrar(ens_) { }
 
     /**
      * @dev owner returns the address of the account that controls a domain.
@@ -79,11 +79,8 @@ contract EthRegistrarSubdomainRegistrar is AbstractSubdomainRegistrar {
      * @param price The price in wei to charge for subdomain registrations.
      * @param referralFeePPM The referral fee to offer, in parts per million.
      * @param _owner The address to assign ownership of this domain to.
-     * @param _transfer The address to set as the transfer address for the name
-     *        when the permanent registrar is replaced. Can only be set to a non-zero
-     *        value once.
      */
-    function configureDomainFor(string memory name, uint price, uint referralFeePPM, address payable _owner, address _transfer) public override owner_only(keccak256(bytes(name))) {
+    function configureDomainFor(string memory name, uint price, uint referralFeePPM, address payable _owner, address /*_transfer*/) public override owner_only(keccak256(bytes(name))) {
         bytes32 label = keccak256(bytes(name));
         Domain storage domain = domains[label];
 

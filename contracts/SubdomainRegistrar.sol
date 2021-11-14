@@ -127,16 +127,16 @@ contract SubdomainRegistrar is AbstractSubdomainRegistrar {
     /**
      * @dev Sets the transfer address of a domain for after an ENS update.
      * @param name The name for which to set the transfer address.
-     * @param transfer The address to transfer to.
+     * @param transfer_ The address to transfer to.
      */
-    function setTransferAddress(string memory name, address transfer) public owner_only(keccak256(bytes(name))) {
+    function setTransferAddress(string memory name, address transfer_) public owner_only(keccak256(bytes(name))) {
         bytes32 label = keccak256(bytes(name));
         Domain storage domain = domains[label];
 
         require(domain.transferAddress == address(0x0));
 
-        domain.transferAddress = transfer;
-        emit TransferAddressSet(label, transfer);
+        domain.transferAddress = transfer_;
+        emit TransferAddressSet(label, transfer_);
     }
 
     /**
@@ -232,13 +232,13 @@ contract SubdomainRegistrar is AbstractSubdomainRegistrar {
      */
     function upgrade(string memory name) public owner_only(keccak256(bytes(name))) new_registrar {
         bytes32 label = keccak256(bytes(name));
-        address transfer = domains[label].transferAddress;
+        address transfer_ = domains[label].transferAddress;
 
-        require(transfer != address(0x0));
+        require(transfer_ != address(0x0));
 
         delete domains[label];
 
-        Registrar(registrar).transfer(label, payable(address(uint160((transfer)))));
+        Registrar(registrar).transfer(label, payable(address(uint160((transfer_)))));
         emit DomainTransferred(label, name);
     }
 

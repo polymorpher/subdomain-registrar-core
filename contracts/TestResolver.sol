@@ -23,7 +23,7 @@ contract TestResolver is Resolver {
         return addresses[node];
     }
 
-    function setAddr(bytes32 node, address addr) public override {
-        addresses[node] = addr;
+    function setAddr(bytes32 node, address addr_) public override {
+        addresses[node] = addr_;
     }
 }

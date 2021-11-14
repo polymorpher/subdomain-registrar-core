@@ -9,5 +9,5 @@ import "./interfaces/ENS.sol";
 abstract contract Resolver {
     function supportsInterface(bytes4 interfaceID) public virtual pure returns (bool);
     function addr(bytes32 node) public virtual view returns (address);
-    function setAddr(bytes32 node, address addr) public virtual;
+    function setAddr(bytes32 node, address addr_) public virtual;
 }
